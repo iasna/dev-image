@@ -14,8 +14,10 @@ The image contains
 12. nodev8
 
 ## How to build an image
-docker build . -t devimage
+```docker build . -t devimage```
 or 
-pull from 
+pull from docker hub
+```docker pull asnaishrat/asna:v2```
 
 ## How to compile code
+ ``` docker run --rm -u iris -v /home/asna:/home/iris -w /home/iris/Sparrow/Core/ -e LD_LIBRARY_PATH=/usr/local/lib:/home/iris/Sparrow/Core/cap/lib:/home/iris/Sparrow/Core/switch/lib:/usr/lib/oracle/19.10/client64/lib:/usr/local/lib64 sparrow-dev make -j2 ```
