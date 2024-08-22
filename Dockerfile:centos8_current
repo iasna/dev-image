@@ -11,7 +11,7 @@ RUN yum clean all
 
 WORKDIR /home
 
-RUN wget --content-disposition http://mirror.centos.org/centos/8/PowerTools/aarch64/os/Packages/doxygen-1.8.14-12.el8.aarch64.rpm https://nodejs.org/dist/v18.20.4/node-v18.20.4-linux-x64.tar.xz https://github.com/Kitware/CMake/releases/download/v3.20.0-rc3/cmake-3.20.0-rc3.tar.gz https://github.com/redis/hiredis/archive/refs/tags/v1.2.0.zip https://sourceforge.net/projects/wsdlpull/files/latest/download https://download.oracle.com/otn_software/linux/instantclient/191000/oracle-instantclient19.10-basic-19.10.0.0.0-1.x86_64.rpm https://download.oracle.com/otn_software/linux/instantclient/191000/oracle-instantclient19.10-devel-19.10.0.0.0-1.x86_64.rpm https://dl.bintray.com/boostorg/release/1.75.0/source/boost_1_75_0.tar.gz https://github.com/zeromq/libzmq/archive/v4.2.3.zip https://files.pythonhosted.org/packages/d3/7f/c780b7471ba0ff4548967a9f7a8b0bfce222c3a496c3dfad0164172222b0/supervisor-4.2.2.tar.gz https://github.com/msgpack/msgpack-c/archive/master.zip
+RUN wget --content-disposition https://github.com/open-telemetry/opentelemetry-cpp/archive/refs/tags/v1.16.0.zip http://mirror.centos.org/centos/8/PowerTools/aarch64/os/Packages/doxygen-1.8.14-12.el8.aarch64.rpm https://nodejs.org/dist/v18.20.4/node-v18.20.4-linux-x64.tar.xz https://github.com/Kitware/CMake/releases/download/v3.20.0-rc3/cmake-3.20.0-rc3.tar.gz https://github.com/redis/hiredis/archive/refs/tags/v1.2.0.zip https://sourceforge.net/projects/wsdlpull/files/latest/download https://download.oracle.com/otn_software/linux/instantclient/191000/oracle-instantclient19.10-basic-19.10.0.0.0-1.x86_64.rpm https://download.oracle.com/otn_software/linux/instantclient/191000/oracle-instantclient19.10-devel-19.10.0.0.0-1.x86_64.rpm https://dl.bintray.com/boostorg/release/1.75.0/source/boost_1_75_0.tar.gz https://github.com/zeromq/libzmq/archive/v4.2.3.zip https://files.pythonhosted.org/packages/d3/7f/c780b7471ba0ff4548967a9f7a8b0bfce222c3a496c3dfad0164172222b0/supervisor-4.2.2.tar.gz https://github.com/msgpack/msgpack-c/archive/master.zip
 
 
 
@@ -95,3 +95,7 @@ RUN ./configure \
 && cd /usr/lib/oracle/19.10/client64/lib \
 && ln -nsf libocci.so.19.1 libocci.so 
 EXPOSE 8000-8999
+WORKDIR /home
+RUN cd opentelemetry-cpp-1.16.0/ \
+&& cd opentelemetry-cpp-1.16.0
+
