@@ -1,7 +1,13 @@
 FROM centos:latest
 RUN useradd -ms /bin/bash -p tpstps iris
+
+RUN   wget 'http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/centos-gpg-keys-8-3.el8.noarch.rpm' \
+    && cd /etc/yum.repos.d/ \
+    && sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* \
+    && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* \
+    && yum update -y
 RUN dnf -y install python3 \
-&& yum -y install libaio.x86_64  libaio-devel.x86_64 unzip  mlocate gcc gcc-c++ vim openssl-libs.x86_64 openssl-devel.x86_64 make gdb.x86_64  tcl.x86_64 wget
+&& yum -y install libaio.x86_64  libaio-devel.x86_64 unzip  mlocate gcc gcc-c++ vim openssl-libs.x86_64 openssl-devel.x86_64 make gdb.x86_64  tcl.x86_64 wget git libcurl-devel
 
 WORKDIR /home
 #Downloading doxygen
@@ -96,6 +102,38 @@ RUN ./configure \
 && ln -nsf libocci.so.19.1 libocci.so 
 EXPOSE 8000-8999
 WORKDIR /home
-RUN cd opentelemetry-cpp-1.16.0/ \
-&& cd opentelemetry-cpp-1.16.0
+RUN wget https://github.com/protocolbuffers/protobuf/releases/download/v27.3/protobuf-27.3.tar.gz \
+&& tar -xzf protobuf-27.3.tar.gz \
+&&  cd protobuf-27.3/thirdparty/ \
+&& git clone --branch 20240722.0 https://github.com/abseil/abseil-cpp.git \
+&& cd abseil-cpp \
+&& mkdir build \
+&& cd build \
+&& cmake -DABSL_PROPAGATE_CXX_STD=ON -DCMAKE_CXX_STANDARD=17 .. \
+&& make \
+&& make install \
+&& updatedb \
+&& cd /home/protobuf-27.3/ \
+&& mkdir build \
+&& cd build \
+&& cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON .. \
+&& make \
+&& make install \
+&& udpatedb \ 
+&& cd /home/opentelemetry-cpp-1.16.0/ \
+&& cd opentelemetry-cpp-1.16.0 \
+&& mkdir build \
+&& cd build \
+&& cmake -DWITH_ABSEIL=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DBUILD_SHARED_LIBS=ON -DWITH_OTLP_HTTP=ON -DOPENTELEMETRY_INSTALL=ON .. \
+&& make \
+&& make install 
+WORKDIR /home
+RUN rm -rf opentelemetry-cpp-1.16.0 protobuf-27.3 hiredis-1.2.0.zip hiredis-1.2.0 boost_1_75_0.tar.gz v1.16.0.zip 
+
+
+
+
+
+
+
 
